@@ -5,6 +5,7 @@ from models import storage_type
 from models.city import City
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
+import uuid
 
 
 class State(BaseModel, Base):
@@ -30,3 +31,9 @@ class State(BaseModel, Base):
                 if city.state_id == self.id:
                     related_cities.append(city)
             return related_cities
+
+    def __init__(self, *args, **kwargs):
+        """initializes city"""
+        super().__init__(*args, **kwargs)
+        if not kwargs.get('id'):
+            self.id = str(uuid.uuid4())

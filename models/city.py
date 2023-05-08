@@ -4,6 +4,7 @@ from models.base_model import BaseModel, Base
 from models import storage_type
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
+import uuid
 
 
 class City(BaseModel, Base):
@@ -17,3 +18,8 @@ class City(BaseModel, Base):
     else:
         name = ''
         state_id = ''
+
+    def __init__(self, *args, **kwargs):
+        if not kwargs.get('id', None):
+            kwargs['id'] = str(uuid.uuid4())
+        super().__init__(*args, **kwargs)
